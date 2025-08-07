@@ -46,37 +46,24 @@ namespace KrydsOgBolleModAI
 
                     if (player % 2 == 0)//checking the chance of the player
                     {
-
-
                         Console.WriteLine("Player 2 Turn");
                         Console.WriteLine("\n");
-                        Board();// calling the board Function
-                        choice = int.Parse(Console.ReadLine());//Taking users choice
-                                                               // checking that position where user want to run is marked (with X or O) or not
-                        if (arr[choice] != 'X' && arr[choice] != 'O')
+                        Board(); // Show the board
+
+                        // Get available moves (positions not marked with X or O)
+                        List<char> moves = arr.Where(x => x != 'X' && x != 'O' && x != '0').ToList();
+                        if (moves.Count > 0)
                         {
-                            if (player % 2 == 0) //if chance is of player 2 then mark O else mark X
-                            {
-                                arr[choice] = 'O';
-                                player++;
-                            }
-                            else
-                            {
-                                arr[choice] = 'X';
-                                player++;
-                            }
+                            int moveIndex = RND.Range(0, moves.Count);
+                            int boardPos = int.Parse(moves[moveIndex].ToString());
+                            arr[boardPos] = 'O';
+                            player++;
                         }
                         else
-                        //If there is any possition where user want to run
-                        //and that is already marked then show message and load board again
                         {
-                            Console.WriteLine("Sorry the row {0} is already marked with {1}", choice, arr[choice]);
-                            Console.WriteLine("\n");
-                            Console.WriteLine("Please wait 2 second board is loading again.....");
+                            Console.WriteLine("No moves left for Player 2.");
                             Thread.Sleep(2000);
                         }
-
-
                     }
                     else
                     {
